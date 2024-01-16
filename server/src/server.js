@@ -7,6 +7,7 @@ const PORT = process.env.PORT || 3000;
 // middlewares
 server.use(express.json());
 server.use(requestLogger);
+
 // routes
 
 server.get("/", (req, res) => {
