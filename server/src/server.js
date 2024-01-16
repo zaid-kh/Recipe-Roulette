@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv/config";
 import { requestLogger } from "../middlewares/requestLogger.js";
+import connectDB from "../config/db.js";
 const server = express();
 const PORT = process.env.PORT || 3000;
 
@@ -14,6 +15,8 @@ server.get("/", (req, res) => {
   res.send(`  Recipe Roulette: hello  `);
 });
 
-server.listen(PORT, () => {
-  console.log(`Restaurant roulette: Server listening on port ${PORT}`);
+connectDB().then(() => {
+  server.listen(PORT, () => {
+    console.log(`Restaurant roulette: Server listening on port ${PORT}`);
+  });
 });
