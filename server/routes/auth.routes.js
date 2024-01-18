@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { logIn, logOut, register } from "../controllers/auth.controller.js";
 
 const router = Router();
 
@@ -7,6 +8,6 @@ router.post("/register", register);
 // POST /api/auth/login: Log in an existing user and provide a JWT token.
 router.post("/login", logIn);
 // GET /api/auth/logout: Log out the user.
-router.get("/profile", logOut);
+router.get("/logout", logOut);
 
 export default router;
