@@ -5,6 +5,7 @@ import "./App.css";
 import theme from "./config/theme";
 import Navbar from "./components/NavBar";
 import { useEffect, useState } from "react";
+import Ingredients from "./pages/Ingredients/Ingredients";
 
 function App() {
   const [navbarHeight, setNavbarHeight] = useState(0);
@@ -24,6 +25,10 @@ function App() {
           <Navbar />
           <Routes>
             <Route path="/" element={<Home navbarHeight={navbarHeight} />} />
+            <Route
+              path="/cook-ingredients"
+              element={<Ingredients navbarHeight={navbarHeight} />}
+            />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
