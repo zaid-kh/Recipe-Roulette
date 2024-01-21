@@ -68,7 +68,7 @@ const Navbar = () => {
   );
 
   return (
-    <div>
+    <div id="navbar">
       <AppBar position="static">
         <Toolbar>
           <Typography
