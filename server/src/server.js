@@ -6,18 +6,19 @@ import connectDB from "../config/db.js";
 import errorHandler from "../middlewares/errorHandler.js";
 import userRoutes from "../routes/user.routes.js";
 import authRoutes from "../routes/auth.routes.js";
+import recipeRoutes from "../routes/recipe.routes.js";
 
 const server = express();
 const PORT = process.env.PORT || 3000;
 
 // middlewares
+server.use(cors());
 server.use(express.json());
 server.use(requestLogger);
-server.use(cors());
 // routes
 server.use("/api/users", userRoutes);
 server.use("/api/auth", authRoutes);
-// server.use("/api/recipes", recipeRoutes);
+server.use("/api/recipes", recipeRoutes);
 
 // default route
 server.get("/", (req, res) => {

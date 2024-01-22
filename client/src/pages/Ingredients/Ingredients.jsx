@@ -11,6 +11,9 @@ import {
   MenuItem,
 } from "@mui/material";
 import theme from "../../config/theme";
+import axios from "axios";
+
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const IngredientsPageContainer = styled("div")(() => ({
   display: "flex",
@@ -30,7 +33,7 @@ const ChipWrapper = styled(Paper)(({ theme }) => ({
   marginBottom: theme.spacing(2),
 }));
 
-const predefinedRequirements = [
+const predefinedDietaryOptions = [
   "Vegetarian",
   "Vegan",
   "Gluten-Free",
@@ -42,25 +45,20 @@ const predefinedRequirements = [
 
 const IngredientsPage = ({ navbarHeight }) => {
   const [ingredients, setIngredients] = useState([]);
-  const [selectedRequirement, setSelectedRequirement] = useState("");
-  const [specialRequirements, setSpecialRequirements] = useState([]);
+  const [selectedOption, setSelectedOption] = useState("");
+  const [dietaryOptions, setdietaryOptions] = useState([]);
   const [newIngredient, setNewIngredient] = useState("");
 
-  const handleAddRequirement = () => {
-    if (
-      selectedRequirement &&
-      !specialRequirements.includes(selectedRequirement)
-    ) {
-      setSpecialRequirements([...specialRequirements, selectedRequirement]);
-      setSelectedRequirement("");
+  const handleAddOption = () => {
+    if (selectedOption && !dietaryOptions.includes(selectedOption)) {
+      setdietaryOptions([...dietaryOptions, selectedOption]);
+      setSelectedOption("");
     }
   };
 
-  const handleRemoveRequirement = (requirement) => {
-    const updatedRequirements = specialRequirements.filter(
-      (item) => item !== requirement
-    );
-    setSpecialRequirements(updatedRequirements);
+  const handleRemoveOption = (option) => {
+    const updatedOptions = dietaryOptions.filter((item) => item !== option);
+    setdietaryOptions(updatedOptions);
   };
 
   const handleAddIngredient = () => {
@@ -77,12 +75,55 @@ const IngredientsPage = ({ navbarHeight }) => {
     setIngredients(updatedIngredients);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // send data to the backend
     console.log("Ingredients:", ingredients);
-    console.log("Special Requirements:", specialRequirements);
+    console.log("Dietary Options:", dietaryOptions);
     // todo: Add API call
-    // import.meta.env.VITE_API_BASE_URL
+    // get all recipes to test the API call
+    await axios
+      .get(`${BASE_URL}/recipes`)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => console.error(err));
+
+    let data = {
+      ingredients: ingredients,
+      dietaryOptions: dietaryOptions,
+    };
+    console.log("data: ", data);
+    try {
+      const response = await fetch(`${BASE_URL}/recipes/findRecipes`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        const responseData = await response.json();
+
+        throw new Error(`HTTP error! Status: ${response.status}
+server message: ${responseData.message}`);
+      }
+
+      const responseData = await response.json();
+      console.log(responseData);
+    } catch (error) {
+      console.error(error);
+    }
+
+    // await axios
+    //   .post(`${BASE_URL}/recipes/findRecipes`, {
+    //     ingredients: ingredients,
+    //     dietaryOptions: dietaryOptions,
+    //   })
+    //   .then((res) => {
+    //     console.log(res);
+    //   })
+    //   .catch((err) => console.error(err));
   };
 
   return (
@@ -128,43 +169,39 @@ const IngredientsPage = ({ navbarHeight }) => {
       </ChipWrapper>
       <ChipWrapper>
         <Typography variant="subtitle1" gutterBottom>
-          Special Requirements
+          Dietary Options
         </Typography>
         <Box display="flex" flexWrap="wrap">
-          {specialRequirements.map((requirement, index) => (
+          {dietaryOptions.map((option, index) => (
             <Chip
               key={index}
-              label={requirement}
-              onDelete={() => handleRemoveRequirement(requirement)}
+              label={option}
+              onDelete={() => handleRemoveOption(option)}
               variant="outlined"
               sx={{ margin: 0.5 }}
             />
           ))}
         </Box>
         <Select
-          value={selectedRequirement}
-          onChange={(e) => setSelectedRequirement(e.target.value)}
+          value={selectedOption}
+          onChange={(e) => setSelectedOption(e.target.value)}
           displayEmpty
           fullWidth
           variant="outlined"
           margin="dense"
         >
           <MenuItem disabled value="">
-            Select Requirement
+            Select Option
           </MenuItem>
-          {predefinedRequirements.map((requirement) => (
-            <MenuItem key={requirement} value={requirement}>
-              {requirement}
+          {predefinedDietaryOptions.map((option) => (
+            <MenuItem key={option} value={option}>
+              {option}
             </MenuItem>
           ))}
         </Select>
         <Box mt={2}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleAddRequirement}
-          >
-            Add Requirement
+          <Button variant="contained" color="primary" onClick={handleAddOption}>
+            Add Option
           </Button>
         </Box>
       </ChipWrapper>
