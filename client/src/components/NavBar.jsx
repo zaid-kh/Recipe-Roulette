@@ -56,11 +56,17 @@ const Navbar = () => {
   //   auth.currentUser ? (links = signedInNavlinks) : (links = navLinks);
 
   const renderNavLinks = () => (
-    <List>
+    <List
+      sx={{
+        backgroundColor: theme.palette.background.default,
+        width: 300,
+        height: "100%",
+      }}
+    >
       {links.map((item) => (
-        <ListItem key={item.label} disablePadding>
+        <ListItem key={item.label}>
           <ListItemButton component={Link} to={item.to}>
-            <ListItemText primary={item.label} />
+            <ListItemText sx={{ textAlign: "center" }} primary={item.label} />
           </ListItemButton>
         </ListItem>
       ))}
