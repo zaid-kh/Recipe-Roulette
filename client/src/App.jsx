@@ -1,4 +1,4 @@
-import { ThemeProvider } from "@mui/material";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import "./App.css";
@@ -22,6 +22,7 @@ function App() {
     <>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
+          <CssBaseline />
           <Navbar />
           <Routes>
             <Route path="/" element={<Home navbarHeight={navbarHeight} />} />

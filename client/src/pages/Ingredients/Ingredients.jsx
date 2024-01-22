@@ -24,6 +24,8 @@ const ChipWrapper = styled(Paper)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
+  minWidth: 300,
+  backgroundColor: theme.palette.background.alternate,
   padding: theme.spacing(2),
   marginBottom: theme.spacing(2),
 }));

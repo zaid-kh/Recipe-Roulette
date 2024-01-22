@@ -43,13 +43,13 @@ const Navbar = () => {
   const navLinks = [
     { label: "Home", to: "/" },
 
-    { label: "Suggest", to: "/suggest" },
+    { label: "Find Recipes", to: "/cook-ingredients" },
     { label: "Sign In", to: "/signin" },
   ];
   // signedin navlinks
   const signedInNavlinks = [
     { label: "Home", to: "/" },
-    { label: "Suggest", to: "/suggest" },
+    { label: "Find Recipes", to: "/cook-ingredients" },
     { label: "Sign Out", to: "/signout" },
   ];
   let links = navLinks;

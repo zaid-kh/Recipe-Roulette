@@ -12,7 +12,6 @@ const HeroContainer = styled("div")(() => ({
   flexDirection: "column",
   height: "93vh",
   textAlign: "center",
-  color: theme.palette.text.secondary,
   overflow: "hidden", // Ensure the overlay covers the entire video
 }));
 
