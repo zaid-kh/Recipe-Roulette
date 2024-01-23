@@ -76,9 +76,9 @@ const Home = ({ navbarHeight }) => {
         <HeroButton variant="contained" component={Link} to="/cook-ingredients">
           What do you want to cook with?
         </HeroButton>
-        <HeroButton variant="contained" component={Link} to="/surprise">
+        {/* <HeroButton variant="contained" component={Link} to="/surprise">
           Surprise me!
-        </HeroButton>
+        </HeroButton> */}
       </Box>
     </HeroContainer>
   );

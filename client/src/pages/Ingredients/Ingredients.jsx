@@ -13,7 +13,7 @@ import {
 import theme from "../../config/theme";
 import axios from "axios";
 import RecipeCard from "../../components/RecipeCard";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -30,6 +30,7 @@ const ChipWrapper = styled(Paper)(({ theme }) => ({
   flexDirection: "column",
   alignItems: "center",
   minWidth: 300,
+  width: "40%",
   backgroundColor: theme.palette.background.alternate,
   padding: theme.spacing(2),
   marginBottom: theme.spacing(2),
@@ -195,9 +196,31 @@ server message: ${responseData.message}`);
           </Button>
         </Box>
       </ChipWrapper>
-      <Box mt={2}>
-        <Button variant="contained" color="primary" onClick={handleSubmit}>
-          Process Requirements
+      <Box
+        sx={{
+          display: "flex",
+          mt: 2,
+          alignItems: "center",
+          flexDirection: "column",
+          gap: 4,
+          width: { xs: 0.6, md: 0.3, lg: 0.2 },
+        }}
+      >
+        <Button
+          sx={{ width: 1 }}
+          variant="contained"
+          color="primary"
+          onClick={handleSubmit}
+        >
+          Find Recipes
+        </Button>
+        <Button
+          sx={{ width: 1 }}
+          variant="contained"
+          component={Link}
+          to="/surprise"
+        >
+          Surprise me!
         </Button>
       </Box>
     </IngredientsPageContainer>
