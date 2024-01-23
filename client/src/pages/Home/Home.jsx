@@ -21,7 +21,7 @@ const VideoOverlay = styled("div")(() => ({
   left: 0,
   width: "100%",
   height: "100%",
-  backgroundColor: "rgba(0, 0, 0, 0.4)", // Adjust the alpha value for darkness
+  backgroundColor: "rgba(0, 0, 0, 0.2)", // Adjust the alpha value for darkness
   zIndex: 0,
 }));
 
@@ -51,7 +51,7 @@ const Home = ({ navbarHeight }) => {
           objectFit: "cover",
         }}
       >
-        <source src="/hero_vid.mp4" type="video/mp4" />
+        <source src="/hero_vid(1080p).mp4" type="video/mp4" />
       </video>
       <VideoOverlay />
 
