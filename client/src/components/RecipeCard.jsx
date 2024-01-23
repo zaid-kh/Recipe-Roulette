@@ -8,13 +8,29 @@ import {
   CardActions,
   Box,
   Chip,
+  Snackbar,
 } from "@mui/material";
 import { Favorite, Save as SaveIcon } from "@mui/icons-material";
 import theme from "../config/theme";
 
 const RecipeCard = ({ recipe, showSaveButton = false, onSaveClick }) => {
+  const [snackbar, setSnackbar] = React.useState({
+    open: false,
+  });
+  const [modal, setModal] = React.useState({
+    open: false,
+  });
   const handleSaveClick = () => {
-    onSaveClick(recipe._id);
+    // todo: save recipe to user's favorites
+    // onSaveClick(recipe._id);
+    setSnackbar({ open: true });
+  };
+  const handleClose = () => {
+    setSnackbar({ open: false });
+  };
+  const showSteps = () => {
+    // show steps modal
+    setModal({ open: true });
   };
 
   return (
@@ -37,7 +53,7 @@ const RecipeCard = ({ recipe, showSaveButton = false, onSaveClick }) => {
       />
 
       {/* Recipe Content */}
-      <CardContent>
+      <CardContent onClick={showSteps}>
         <Typography variant="h5">{recipe.name}</Typography>
         <Typography variant="subtitle1">
           Cuisine: {recipe.cuisineType}
@@ -55,6 +71,17 @@ const RecipeCard = ({ recipe, showSaveButton = false, onSaveClick }) => {
             />
           ))}
         </Box>
+        {/* Display Dietary Options as Chips */}
+        {/* <Box mt={2} display="flex" flexWrap="wrap">
+          {recipe.dietaryOptions.map((option, index) => (
+            <Chip
+              key={index}
+              label={option}
+              variant="outlined"
+              sx={{ margin: 0.5 }}
+            />
+          ))}
+        </Box> */}
       </CardContent>
 
       {/* Recipe Actions */}
@@ -63,6 +90,12 @@ const RecipeCard = ({ recipe, showSaveButton = false, onSaveClick }) => {
         {showSaveButton && (
           <IconButton onClick={handleSaveClick}>
             Add to favorites
+            <Snackbar
+              anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+              open={snackbar.open}
+              onClose={handleClose}
+              message="Added to favorites!"
+            />
             <Favorite />
           </IconButton>
         )}

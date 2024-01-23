@@ -4,12 +4,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import RecipeCard from "../../components/RecipeCard";
 
 const FoundRecipes = () => {
-  //   const [recipes, setRecipes] = useState([]);
-  //   const [savedRecipes, setSavedRecipes] = useState([]);
-  //   const [recipe, setRecipe] = useState({});
-  //   const [loading, setLoading] = useState(true);
-  //   const [error, setError] = useState("");
-  //   const [open, setOpen] = useState(false);
   // get recipes from nav state
   const { state } = useLocation();
   console.log("state: ", state);
@@ -27,7 +21,6 @@ const FoundRecipes = () => {
       </Typography>
 
       {/* map recipes to a recipecard */}
-      {/* <RecipeCard recipe={recipe} showSaveButton={true} onSaveClick={handleSaveClick} /> */}
 
       {recipes ? (
         recipes.map((recipe) => (
