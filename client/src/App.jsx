@@ -6,6 +6,7 @@ import theme from "./config/theme";
 import Navbar from "./components/NavBar";
 import { useEffect, useState } from "react";
 import Ingredients from "./pages/Ingredients/Ingredients";
+import FoundRecipes from "./pages/FoundRecipes/FoundRecipes";
 
 function App() {
   const [navbarHeight, setNavbarHeight] = useState(0);
@@ -30,6 +31,8 @@ function App() {
               path="/cook-ingredients"
               element={<Ingredients navbarHeight={navbarHeight} />}
             />
+            <Route path="/found-recipes" element={<FoundRecipes />} />
+            <Route path="*" element={<h1>Not Found</h1>} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

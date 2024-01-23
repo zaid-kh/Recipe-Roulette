@@ -12,6 +12,8 @@ import {
 } from "@mui/material";
 import theme from "../../config/theme";
 import axios from "axios";
+import RecipeCard from "../../components/RecipeCard";
+import { useNavigate } from "react-router-dom";
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -48,6 +50,8 @@ const IngredientsPage = ({ navbarHeight }) => {
   const [selectedOption, setSelectedOption] = useState("");
   const [dietaryOptions, setdietaryOptions] = useState([]);
   const [newIngredient, setNewIngredient] = useState("");
+  const [results, setResults] = useState([]); // results from backend
+  const navigate = useNavigate();
 
   const handleAddOption = () => {
     if (selectedOption && !dietaryOptions.includes(selectedOption)) {
@@ -79,14 +83,6 @@ const IngredientsPage = ({ navbarHeight }) => {
     // send data to the backend
     console.log("Ingredients:", ingredients);
     console.log("Dietary Options:", dietaryOptions);
-    // todo: Add API call
-    // get all recipes to test the API call
-    await axios
-      .get(`${BASE_URL}/recipes`)
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => console.error(err));
 
     let data = {
       ingredients: ingredients,
@@ -111,19 +107,13 @@ server message: ${responseData.message}`);
 
       const responseData = await response.json();
       console.log(responseData);
+      setResults(responseData.recipes);
+      // pass results to found recipes page
+
+      navigate("/found-recipes", { state: { recipes: responseData.recipes } });
     } catch (error) {
       console.error(error);
     }
-
-    // await axios
-    //   .post(`${BASE_URL}/recipes/findRecipes`, {
-    //     ingredients: ingredients,
-    //     dietaryOptions: dietaryOptions,
-    //   })
-    //   .then((res) => {
-    //     console.log(res);
-    //   })
-    //   .catch((err) => console.error(err));
   };
 
   return (
