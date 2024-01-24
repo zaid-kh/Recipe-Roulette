@@ -10,6 +10,7 @@ import {
   surpriseMe,
   updateRecipe,
 } from "../controllers/recipe.controller.js";
+import { isAdmin, isAuth } from "../middlewares/auth.js";
 const router = Router();
 // POST /api/recipes/findRecipes Find recipes that match the given criteria.
 router.post("/findRecipes", findRecipes);
@@ -19,6 +20,10 @@ router.post("/surprise", surpriseMe);
 
 // GET /api/v1/recipes: Retrieve a list of all recipes.
 router.get("/", getAllRecipes);
+
+// POST /api/recipes/favorite: Add a recipe to the user's favorites.
+// Requires authentication.
+// !router.post("/favorite", isAuth, favoriteRecipe);
 
 // GET /api/v1/recipes/:id: Retrieve details of a specific recipe.
 // router.get("/:id", getRecipeById);

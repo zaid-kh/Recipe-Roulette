@@ -4,10 +4,11 @@ import {
   getUserById,
   createUser,
 } from "../controllers/user.controller.js";
+import { isAdmin, isAuth } from "../middlewares/auth.js";
 const router = Router();
 
 // GET /api/v1/users: Retrieve a list of all users.
-router.get("/", getAllUsers);
+router.get("/", isAuth, getAllUsers);
 
 // GET /api/v1/users/:id: Retrieve details of a specific user.
 router.get("/:id", getUserById);

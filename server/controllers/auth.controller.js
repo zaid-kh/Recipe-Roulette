@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import User from "../models/user.schema.js";
 import STATUS_CODE from "../constants/statusCodes.js";
 
@@ -47,24 +48,38 @@ export const logIn = async (req, res, next) => {
   try {
     // check if user exists
     const { email, password } = req.body;
-    const user = await User.findOne({ email: email });
+    const existingUser = await User.findOne({ email: email });
 
-    if (!user) {
+    if (!existingUser) {
       res.status(STATUS_CODE.NOT_FOUND);
       throw new Error(`User with email: ${email} does not exist!`);
     }
 
     // compare password with stored hash
-    const result = await bcrypt.compare(password, user.password);
+    const passwordResult = await bcrypt.compare(
+      password,
+      existingUser.password
+    );
     // password does not match
-    if (!result) {
+    if (!passwordResult) {
       res.status(STATUS_CODE.UNAUTHORIZED);
       throw new Error("Email and password do not match!");
     }
-
+    //* Create access token to the user
+    const token = jwt.sign(
+      {
+        id: existingUser._id,
+        email: existingUser.username,
+        role: existingUser.role,
+      },
+      process.env.SECRET,
+      {
+        expiresIn: "15m",
+      }
+    );
     // Successful login
     res.status(STATUS_CODE.OK);
-    res.send(`Welcome, ${user.username}!`);
+    res.send(token);
   } catch (error) {
     next(error);
   }
@@ -74,6 +89,7 @@ export const logOut = async (req, res, next) => {
   try {
     // log out user
     // todo: invalidate token
+
     res.status(STATUS_CODE.OK);
     res.end("Logged out successfully");
 
