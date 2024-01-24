@@ -49,6 +49,7 @@ const Navbar = () => {
   ];
   // signedin navlinks
   const signedInNavlinks = [
+    { label: "Favorites Recipes", to: "/favorites" },
     { label: "Home", to: "/" },
     { label: "Find Recipes", to: "/cook-ingredients" },
     { label: "Sign Out", to: "/signout" },
@@ -69,7 +70,13 @@ const Navbar = () => {
     >
       {links.map((item) => (
         <ListItem key={item.label}>
-          <ListItemButton component={Link} to={item.to}>
+          <ListItemButton
+            component={Link}
+            to={item.to}
+            onClick={() => {
+              setMobileOpen(false);
+            }}
+          >
             <ListItemText sx={{ textAlign: "center" }} primary={item.label} />
           </ListItemButton>
         </ListItem>
@@ -147,6 +154,21 @@ const Navbar = () => {
               keepMounted: true, // Better open performance on mobile.
             }}
           >
+            {user && (
+              <List>
+                <ListItem>
+                  <ListItemText
+                    sx={{
+                      textAlign: "center",
+                      color: theme.palette.text.secondary,
+                      fontWeight: "bold",
+                      fontSize: "1.2rem",
+                    }}
+                    primary={`Welcome ${user.username}`}
+                  />
+                </ListItem>
+              </List>
+            )}
             {renderNavLinks()}
           </Drawer>
         </DrawerContainer>
