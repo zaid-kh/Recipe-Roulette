@@ -3,7 +3,6 @@ import {
   Card,
   CardContent,
   Typography,
-  Button,
   IconButton,
   CardActions,
   Box,
@@ -16,7 +15,7 @@ import { Favorite, Save as SaveIcon } from "@mui/icons-material";
 import theme from "../config/theme";
 
 const RecipeCard = ({ recipe, showSaveButton = false, onSaveClick }) => {
-  const [snackbar, setSnackbar] = React.useState({
+  const [snackbar, setSnackbar] = useState({
     open: false,
   });
   const [modalOpen, setModalOpen] = useState(false);

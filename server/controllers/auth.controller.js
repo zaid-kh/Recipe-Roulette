@@ -6,7 +6,7 @@ const saltRounds = 10;
 
 export const register = async (req, res, next) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password, role } = req.body;
     // check if username, password and email are provided
     if (!username || !password || !email) {
       res.status(STATUS_CODE.BAD_REQUEST);
@@ -32,6 +32,7 @@ export const register = async (req, res, next) => {
         username,
         email,
         password: hash,
+        ...(role && { role }), // Add the role field to the user object if it exists
       });
       newUser.save();
       res.status(STATUS_CODE.CREATED);
