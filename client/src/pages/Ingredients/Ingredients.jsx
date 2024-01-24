@@ -11,8 +11,6 @@ import {
   MenuItem,
 } from "@mui/material";
 import theme from "../../config/theme";
-import axios from "axios";
-import RecipeCard from "../../components/RecipeCard";
 import { Link, useNavigate } from "react-router-dom";
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -37,6 +35,7 @@ const ChipWrapper = styled(Paper)(({ theme }) => ({
 }));
 
 const predefinedDietaryOptions = [
+  "Non-vegetarian",
   "Vegetarian",
   "Vegan",
   "Gluten-Free",
@@ -190,6 +189,21 @@ server message: ${responseData.message}`);
           fullWidth
           variant="outlined"
           margin="dense"
+          MenuProps={{
+            anchorOrigin: {
+              vertical: "bottom",
+              horizontal: "left",
+            },
+            transformOrigin: {
+              vertical: "top",
+              horizontal: "left",
+            },
+            PaperProps: {
+              style: {
+                backgroundColor: theme.palette.background.alternate,
+              },
+            },
+          }}
         >
           <MenuItem disabled value="">
             Select Option
@@ -200,6 +214,7 @@ server message: ${responseData.message}`);
             </MenuItem>
           ))}
         </Select>
+
         <Box mt={2}>
           <Button variant="contained" color="primary" onClick={handleAddOption}>
             Add Option
