@@ -17,6 +17,7 @@ import { styled, useTheme } from "@mui/system";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link, useNavigate } from "react-router-dom";
 import theme from "../config/theme";
+import useAuthContext from "../hooks/useAuthContext";
 
 const DrawerContainer = styled("div")(({ theme }) => ({
   width: 240,
@@ -53,7 +54,10 @@ const Navbar = () => {
     { label: "Sign Out", to: "/signout" },
   ];
   let links = navLinks;
-  //   auth.currentUser ? (links = signedInNavlinks) : (links = navLinks);
+  // get current user from auth context
+  const { user } = useAuthContext();
+  // if user is signed in, show signed in navlinks
+  user ? (links = signedInNavlinks) : (links = navLinks);
 
   const renderNavLinks = () => (
     <List

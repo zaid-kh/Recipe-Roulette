@@ -10,9 +10,12 @@ import FoundRecipes from "./pages/FoundRecipes/FoundRecipes";
 import SignIn from "./pages/auth/SignIn";
 import AuthProviderLayout from "./AuthProviderLayout";
 import SignUp from "./pages/auth/SignUp";
+import useAuthContext from "./hooks/useAuthContext";
+import SignOut from "./pages/auth/SignOut";
 
 function App() {
   const [navbarHeight, setNavbarHeight] = useState(0);
+  const { user } = useAuthContext();
 
   useEffect(() => {
     // Calculate the height of the Navbar
@@ -25,28 +28,30 @@ function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
+        <CssBaseline />
         <BrowserRouter>
-          <CssBaseline />
           <Navbar />
           <Routes>
-            <Route element={<AuthProviderLayout />}>
-              <Route
-                path="/signin"
-                element={<SignIn navbarHeight={navbarHeight} />}
-              />
-              <Route
-                path="/signup"
-                element={<SignUp navbarHeight={navbarHeight} />}
-              />
-              <Route path="/" element={<Home navbarHeight={navbarHeight} />} />
+            <Route
+              path="/signin"
+              element={<SignIn navbarHeight={navbarHeight} />}
+            />
+            <Route
+              path="/signup"
+              element={<SignUp navbarHeight={navbarHeight} />}
+            />
+            <Route
+              path="/signout"
+              element={<SignOut navbarHeight={navbarHeight} />}
+            />
+            <Route path="/" element={<Home navbarHeight={navbarHeight} />} />
 
-              <Route
-                path="/cook-ingredients"
-                element={<Ingredients navbarHeight={navbarHeight} />}
-              />
-              <Route path="/found-recipes" element={<FoundRecipes />} />
-              <Route path="*" element={<h1>Not Found</h1>} />
-            </Route>
+            <Route
+              path="/cook-ingredients"
+              element={<Ingredients navbarHeight={navbarHeight} />}
+            />
+            <Route path="/found-recipes" element={<FoundRecipes />} />
+            <Route path="*" element={<h1>Not Found</h1>} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
