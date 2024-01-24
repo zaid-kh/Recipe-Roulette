@@ -22,7 +22,7 @@ const RecipeCard = ({ recipe, showSaveButton = false, onSaveClick }) => {
   // favorite button handlers
   const handleSaveClick = () => {
     // todo: save recipe to user's favorites
-    // onSaveClick(recipe._id);
+    onSaveClick(recipe);
     setSnackbar({ open: true });
   };
   const handleCloseSnackbar = () => {

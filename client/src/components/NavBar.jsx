@@ -49,8 +49,8 @@ const Navbar = () => {
   ];
   // signedin navlinks
   const signedInNavlinks = [
-    { label: "Favorites Recipes", to: "/favorites" },
     { label: "Home", to: "/" },
+    { label: "Favorites Recipes", to: "/favorites" },
     { label: "Find Recipes", to: "/cook-ingredients" },
     { label: "Sign Out", to: "/signout" },
   ];

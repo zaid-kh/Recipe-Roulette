@@ -47,3 +47,41 @@ export const getUserById = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getFavoriteRecipes = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id).populate("favoriteRecipes");
+    if (!user) {
+      res.status(STATUS_CODE.NOT_FOUND);
+      throw new Error("User not found");
+    }
+    res.status(STATUS_CODE.OK).json(user.favoriteRecipes);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const addFavoriteRecipe = async (req, res, next) => {
+  try {
+    const { id } = req.user;
+    const user = await User.findById(id);
+    if (!user) {
+      res.status(STATUS_CODE.NOT_FOUND);
+      throw new Error("User not found");
+    }
+    const recipeId = req.params.recipeId;
+    if (!recipeId) {
+      res.status(STATUS_CODE.BAD_REQUEST);
+      throw new Error("Recipe id is required");
+    }
+    if (user.favoriteRecipes.includes(recipeId)) {
+      res.status(STATUS_CODE.CONFLICT);
+      throw new Error("Recipe already in favorites");
+    }
+    user.favoriteRecipes.push(recipeId);
+    await user.save();
+    res.status(STATUS_CODE.OK).json(user);
+  } catch (error) {
+    next(error);
+  }
+};

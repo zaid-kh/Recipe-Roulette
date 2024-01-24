@@ -46,16 +46,17 @@ export const register = async (req, res, next) => {
       const token = jwt.sign(
         {
           id: newUser._id,
-          email: newUser.username,
+          email: newUser.email,
+          username: newUser.username,
           role: newUser.role,
         },
         process.env.SECRET,
         {
-          expiresIn: "15m",
+          expiresIn: "2h",
         }
       );
       res.status(STATUS_CODE.CREATED);
-      res.send({ username: newUser.username, token });
+      res.send({ id: newUser._id, username: newUser.username, token });
     });
   } catch (error) {
     next(error);
@@ -87,17 +88,18 @@ export const logIn = async (req, res, next) => {
     const token = jwt.sign(
       {
         id: existingUser._id,
-        email: existingUser.username,
+        email: existingUser.email,
+        username: existingUser.username,
         role: existingUser.role,
       },
       process.env.SECRET,
       {
-        expiresIn: "15m",
+        expiresIn: "2h",
       }
     );
     // Successful login
     res.status(STATUS_CODE.OK);
-    res.send({ username: existingUser.username, token });
+    res.send({ id: existingUser._id, username: existingUser.username, token });
   } catch (error) {
     next(error);
   }

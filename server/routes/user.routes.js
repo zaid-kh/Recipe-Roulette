@@ -3,6 +3,8 @@ import {
   getAllUsers,
   getUserById,
   createUser,
+  getFavoriteRecipes,
+  addFavoriteRecipe,
 } from "../controllers/user.controller.js";
 import { isAdmin, isAuth } from "../middlewares/auth.js";
 const router = Router();
@@ -12,6 +14,13 @@ router.get("/", isAuth, getAllUsers);
 
 // GET /api/v1/users/:id: Retrieve details of a specific user.
 router.get("/:id", getUserById);
+
+// GET /api/v1/users/:id/favorites: Retrieve a list of a user's favorite recipes.
+router.get("/:id/favorites", getFavoriteRecipes);
+
+// PUT /api/users/favorite/:recipeID: Add a recipe to the user's favorites.
+// Requires authentication.
+router.put("/favorite/:recipeId", isAuth, addFavoriteRecipe);
 
 //! POST /api/users: Add a new user to the database (testing-only).
 router.post("/", createUser);
