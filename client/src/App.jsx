@@ -13,6 +13,7 @@ import SignUp from "./pages/auth/SignUp";
 import useAuthContext from "./hooks/useAuthContext";
 import SignOut from "./pages/auth/SignOut";
 import FavoriteRecipes from "./pages/Favorites/Favorites";
+import SurpriseMe from "./pages/SurpriseMe/SurpriseMe";
 
 function App() {
   const [navbarHeight, setNavbarHeight] = useState(0);
@@ -52,6 +53,7 @@ function App() {
               element={<Ingredients navbarHeight={navbarHeight} />}
             />
             <Route path="/found-recipes" element={<FoundRecipes />} />
+            <Route path="/surprise" element={<SurpriseMe />} />
             <Route path="/favorites" element={<FavoriteRecipes />} />
             <Route path="*" element={<h1>Not Found</h1>} />
           </Routes>

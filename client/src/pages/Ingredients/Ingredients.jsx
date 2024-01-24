@@ -80,7 +80,7 @@ const IngredientsPage = ({ navbarHeight }) => {
     setIngredients(updatedIngredients);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (surprise) => {
     // send data to the backend
     console.log("Ingredients:", ingredients);
     console.log("Dietary Options:", dietaryOptions);
@@ -90,8 +90,12 @@ const IngredientsPage = ({ navbarHeight }) => {
       dietaryOptions: dietaryOptions,
     };
     console.log("data: ", data);
+    let url = `${BASE_URL}/recipes/findRecipes`;
+    surprise
+      ? (url = `${BASE_URL}/recipes/surprise`)
+      : (url = `${BASE_URL}/recipes/findRecipes`);
     try {
-      const response = await fetch(`${BASE_URL}/recipes/findRecipes`, {
+      const response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -110,8 +114,14 @@ server message: ${responseData.message}`);
       console.log(responseData);
       setResults(responseData.recipes);
       // pass results to found recipes page
-
-      navigate("/found-recipes", { state: { recipes: responseData.recipes } });
+      surprise
+        ? navigate("/surprise", {
+            state: { recipe: responseData.recipe },
+            replace: true,
+          })
+        : navigate("/found-recipes", {
+            state: { recipes: responseData.recipes },
+          });
     } catch (error) {
       console.error(error);
     }
@@ -210,7 +220,7 @@ server message: ${responseData.message}`);
           sx={{ width: 1 }}
           variant="contained"
           color="primary"
-          onClick={handleSubmit}
+          onClick={() => handleSubmit(false)}
         >
           Find Recipes
         </Button>
@@ -218,7 +228,7 @@ server message: ${responseData.message}`);
           sx={{ width: 1 }}
           variant="contained"
           component={Link}
-          to="/surprise"
+          onClick={() => handleSubmit(true)}
         >
           Surprise me!
         </Button>
