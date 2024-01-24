@@ -128,8 +128,8 @@ export const findRecipes = async (req, res, next) => {
 
     let query = {
       ingredients: {
-        // Match ingredients case-insensitively
-        $in: ingredients.map((ingredient) => new RegExp(ingredient, "i")),
+        // Match recipes that contain all specified ingredients
+        $all: ingredients.map((ingredient) => new RegExp(ingredient, "i")),
       },
     };
 
@@ -139,7 +139,7 @@ export const findRecipes = async (req, res, next) => {
       dietaryOptions.length > 0
     ) {
       query.dietaryOptions = {
-        $in: dietaryOptions.map((option) => new RegExp(option, "i")),
+        $all: dietaryOptions,
       };
     }
 
@@ -174,8 +174,8 @@ export const surpriseMe = async (req, res, next) => {
 
     let query = {
       ingredients: {
-        // Match ingredients case-insensitively
-        $in: ingredients.map((ingredient) => new RegExp(ingredient, "i")),
+        // Match recipes that contain all specified ingredients
+        $all: ingredients.map((ingredient) => new RegExp(ingredient, "i")),
       },
     };
 
@@ -185,7 +185,7 @@ export const surpriseMe = async (req, res, next) => {
       dietaryOptions.length > 0
     ) {
       query.dietaryOptions = {
-        $in: dietaryOptions.map((option) => new RegExp(option, "i")),
+        $all: dietaryOptions,
       };
     }
 
