@@ -13,6 +13,12 @@ export const register = async (req, res, next) => {
       res.status(STATUS_CODE.BAD_REQUEST);
       throw new Error("Username, password and email are required");
     }
+    // validate email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email.trim())) {
+      res.status(STATUS_CODE.BAD_REQUEST);
+      throw new Error("Invalid email address");
+    }
     // check if email exists
     const existsEmail = await User.exists({ email: email });
     if (existsEmail) {
@@ -36,8 +42,20 @@ export const register = async (req, res, next) => {
         ...(role && { role }), // Add the role field to the user object if it exists
       });
       newUser.save();
+      //* Create access token to the user
+      const token = jwt.sign(
+        {
+          id: newUser._id,
+          email: newUser.username,
+          role: newUser.role,
+        },
+        process.env.SECRET,
+        {
+          expiresIn: "15m",
+        }
+      );
       res.status(STATUS_CODE.CREATED);
-      res.end(`${username} registered successfully`);
+      res.send({ username: newUser.username, token });
     });
   } catch (error) {
     next(error);
@@ -79,7 +97,7 @@ export const logIn = async (req, res, next) => {
     );
     // Successful login
     res.status(STATUS_CODE.OK);
-    res.send(token);
+    res.send({ username: existingUser.username, token });
   } catch (error) {
     next(error);
   }

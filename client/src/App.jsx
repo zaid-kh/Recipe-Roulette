@@ -7,6 +7,9 @@ import Navbar from "./components/NavBar";
 import { useEffect, useState } from "react";
 import Ingredients from "./pages/Ingredients/Ingredients";
 import FoundRecipes from "./pages/FoundRecipes/FoundRecipes";
+import SignIn from "./pages/auth/SignIn";
+import AuthProviderLayout from "./AuthProviderLayout";
+import SignUp from "./pages/auth/SignUp";
 
 function App() {
   const [navbarHeight, setNavbarHeight] = useState(0);
@@ -26,13 +29,24 @@ function App() {
           <CssBaseline />
           <Navbar />
           <Routes>
-            <Route path="/" element={<Home navbarHeight={navbarHeight} />} />
-            <Route
-              path="/cook-ingredients"
-              element={<Ingredients navbarHeight={navbarHeight} />}
-            />
-            <Route path="/found-recipes" element={<FoundRecipes />} />
-            <Route path="*" element={<h1>Not Found</h1>} />
+            <Route element={<AuthProviderLayout />}>
+              <Route
+                path="/signin"
+                element={<SignIn navbarHeight={navbarHeight} />}
+              />
+              <Route
+                path="/signup"
+                element={<SignUp navbarHeight={navbarHeight} />}
+              />
+              <Route path="/" element={<Home navbarHeight={navbarHeight} />} />
+
+              <Route
+                path="/cook-ingredients"
+                element={<Ingredients navbarHeight={navbarHeight} />}
+              />
+              <Route path="/found-recipes" element={<FoundRecipes />} />
+              <Route path="*" element={<h1>Not Found</h1>} />
+            </Route>
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
